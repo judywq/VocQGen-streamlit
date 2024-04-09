@@ -4,7 +4,6 @@ from tenacity import retry, stop_after_attempt
 import logging
 logger = logging.getLogger(__name__)
 
-client = OpenAI()
 
 REQUEST_TIMEOUT_SECS = 60
 
@@ -13,6 +12,7 @@ class MyBotWrapper:
         self.parser = parser
         self.model = model
         self.temperature = temperature
+        self.client = OpenAI()
     
     @retry(stop=stop_after_attempt(3))
     def run(self, inputs):
@@ -26,7 +26,7 @@ class MyBotWrapper:
 
     def get_completion(self, prompt):
         messages = [{"role": "user", "content": prompt}]
-        response = client.chat.completions.create(
+        response = self.client.chat.completions.create(
             model=self.model,
             messages=messages,
             temperature=self.temperature, # this is the degree of randomness of the model's output
