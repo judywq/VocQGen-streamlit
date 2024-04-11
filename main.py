@@ -1,3 +1,4 @@
+import os
 import pandas as pd
 import streamlit as st
 
@@ -37,6 +38,8 @@ if not openai_api_key:
         "Enter your OpenAI API key in the sidebar. You can get a key at"
         " https://platform.openai.com/account/api-keys."
     )
+else:
+    os.environ["OPENAI_API_KEY"] = openai_api_key
 
 
 uploaded_file = st.file_uploader(
