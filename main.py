@@ -27,12 +27,11 @@ else:
 
 st.set_page_config(page_title="VocQGen", page_icon="📖", layout="wide")
 st.header("📖VocQGen")
+st.write("VocQGen (**Voc**abulary **Q**uestion **Gen**erator) is a tool that generates vocabulary tests based on the word list you uploaded.")
 
 sidebar()
 
 openai_api_key = st.session_state.get("OPENAI_API_KEY")
-
-
 if not openai_api_key:
     st.warning(
         "Enter your OpenAI API key in the sidebar. You can get a key at"
@@ -42,8 +41,20 @@ else:
     os.environ["OPENAI_API_KEY"] = openai_api_key
 
 
+
+st.markdown(
+    "## How to use\n"
+    "1. Enter your [OpenAI API key](https://platform.openai.com/account/api-keys) in the sidebar on the left\n"  # noqa: E501
+    "2. Upload an excel file which contains a column of headwords (e.g., `Headword` in the example file)\n"
+    "3. Under the `Advanced Options` section, specify the column name of the headwords in your excel file (case sensitive)\n"
+    "4. Click the `Generate Cloze!` button\n"
+)
+
+st.write("#### An example file looks like this:")
+st.write(pd.read_excel("./test-data/Example.xlsx"))
+
 uploaded_file = st.file_uploader(
-    "Upload an Excel file",
+    "Upload your Excel file",
     type=["xlsx", "xls"],
 )
 

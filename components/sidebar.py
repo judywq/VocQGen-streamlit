@@ -9,13 +9,6 @@ import os
 
 def sidebar():
     with st.sidebar:
-        st.markdown(
-            "## How to use\n"
-            "1. Enter your [OpenAI API key](https://platform.openai.com/account/api-keys) below🔑\n"  # noqa: E501
-            "2. Upload a excel file📄\n"
-            "3. Under the `Advanced Options` section, specify the column name of the head words in your excel file\n"
-            "4. Click the `Generate Cloze!` button\n"
-        )
         api_key_input = st.text_input(
             "OpenAI API Key",
             type="password",
