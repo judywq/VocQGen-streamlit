@@ -27,7 +27,7 @@ else:
 
 st.set_page_config(page_title="VocQGen", page_icon="📖", layout="wide")
 st.header("📖VocQGen")
-st.write("VocQGen (**Voc**abulary **Q**uestion **Gen**erator) is a tool that generates vocabulary tests based on the word list you uploaded.")
+st.write("VocQGen (**Voc**abulary **Q**uestion **Gen**erator) generates multiple-choice cloze vocabulary questions based on a list of user uploaded words.")
 
 sidebar()
 
@@ -43,15 +43,23 @@ else:
 
 
 st.markdown(
-    "## How to use\n"
-    "1. Enter your [OpenAI API key](https://platform.openai.com/account/api-keys) in the sidebar on the left\n"  # noqa: E501
-    "2. Upload an excel file which contains a column of headwords (e.g., `Headword` in the example file)\n"
-    "3. Under the `Advanced Options` section, specify the column name of the headwords in your excel file (case sensitive)\n"
-    "4. Click the `Generate Cloze!` button\n"
-)
+    """## How to use\n
+1. Enter your [OpenAI API key](https://platform.openai.com/account/api-keys) key on the left sidebar.
+Please note that your API key will **NOT** be stored by either the developers or Streamlit.
 
-st.write("#### An example file looks like this:")
-st.write(pd.read_excel("./test-data/Example.xlsx"))
+2. Upload the list of words you want to create questions for. 
+The words should be in a column and there should be a heading for the column, such as "Headword". 
+See [the excel file](https://github.com/judywq/VocQGen-streamlit/raw/main/test-data/Example.xlsx) here for an example.
+
+3. Under the `Advanced Options` section, specify the column heading of the input words in your excel file ("Headword" for example). 
+Then, under "Question per family", fill in how many questions you want to generate for each word family. 
+If you want to generate questions for every word in the family, please fill in "-1". VocQGen currently generates one question for each word in a family.
+
+4. Click the `Generate Cloze!` button and wait for the response from VoCQgen. 
+The results can be viewed on the browser and is available for download. 
+A log, inflection and failure list will also be available on the browser. 
+"""
+)
 
 uploaded_file = st.file_uploader(
     "Upload your Excel file",
