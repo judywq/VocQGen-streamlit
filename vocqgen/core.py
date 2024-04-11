@@ -29,6 +29,8 @@ def generate_from_df(df, config: Config, progress_cb=None):
     
     # df_inflections = pd.DataFrame(word_cluster.inflection_log, columns=inflection_columns)
     df_inflections = pd.DataFrame(word_cluster.inflection_log)
+    df_failure = pd.DataFrame()
+    df_log = pd.DataFrame()
     
     # word_cluster.print()
     # Return here if only inflections are needed
