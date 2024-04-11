@@ -3,10 +3,11 @@ import streamlit as st
 
 
 def faq():
+    st.markdown("---")
     st.markdown(
-        """# FAQ
+        """## FAQ
 
-## Why is the number of distractors less than expected?
+### Why is the number of distractors less than expected?
 
 The distractors are selected from the word list you provided. 
 If there are not enough appropriate distractors for a key, the respective distrator cells will be left empty. 
