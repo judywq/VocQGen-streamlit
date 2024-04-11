@@ -63,7 +63,7 @@ uploaded_file = st.file_uploader(
 )
 
 
-with st.expander("Advanced Options"):
+with st.expander("Advanced Options", expanded=True):
     model: str = st.selectbox("Model", options=st.secrets.MODEL_LIST)  # type: ignore
     config.LLM_MODEL = model
     
