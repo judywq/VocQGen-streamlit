@@ -119,17 +119,18 @@ def generate_from_df(df, config: Config, progress_cb=None):
 
             df_log = pd.DataFrame(log_data, columns=log_columns)
             df_failure = pd.DataFrame(failure_list, columns=failure_columns)
+            df_result = pd.DataFrame(data, columns=columns)
+            yield {
+                "result": df_result,
+                "inflections": df_inflections,
+                "failure": df_failure,
+                "log": df_log,
+            }            
             # End of word loop
         # End of word family loop
     
     logger.info(f"Done.")
-    df_result = pd.DataFrame(data, columns=columns)
-    return {
-        "result": df_result,
-        "inflections": df_inflections,
-        "failure": df_failure,
-        "log": df_log,
-    }
+
 
 
 def fill_distractors(bot_rational, word_cluster, word, sentence, n_distractors, test_distractor_count, log_data=[], max_trials=5):

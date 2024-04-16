@@ -82,29 +82,40 @@ st.write(original_data)
 my_bar = None
 if st.button("Generate Cloze!", disabled=st.session_state.running, key='run_button'):
     my_bar = st.progress(0, text="Initializing...")
+    result_slot = st.empty()
+    
     # Process the data
-    result = generate_from_df(original_data, config, 
-                              lambda i, n, w: my_bar.progress(i / n, text=f"[{i}/{n}] Generating cloze for word `{w}`..."))
-    st.session_state.result = result
+    for result in generate_from_df(original_data, config, 
+                              lambda i, n, w: my_bar.progress(i / n, text=f"[{i}/{n}] Generating cloze for word `{w}`...")):
+        with result_slot.container():
+            df_result = result['result']
+
+            st.write("### Result:")
+            st.write(df_result)
+
+            st.write("### Log:")
+            st.write(result['log'])
+            
+            st.write("### Inflections:")
+            st.write(result['inflections'])
+            
+            st.write("### Failure:")
+            st.write(result['failure'])
+        st.session_state.result = result
     # https://discuss.streamlit.io/t/disable-the-button-until-the-end-of-the-script-execution/42443/8
     st.rerun()
 
 
+
 if 'result' in st.session_state:
+    # if my_bar:
+    #     my_bar.empty()
+        
     result = st.session_state.result
     df_result = result['result']
 
-    if my_bar:
-        my_bar.empty()
-
     st.write("### Result:")
     st.write(df_result)
-
-    # Download link for the processed data
-    excel_data = to_excel(df_result)
-    st.download_button(label='📥 Download Result',
-                        data=excel_data ,
-                        file_name= 'result.xlsx')
 
     st.write("### Log:")
     st.write(result['log'])
@@ -114,6 +125,11 @@ if 'result' in st.session_state:
     
     st.write("### Failure:")
     st.write(result['failure'])
+    # Download link for the processed data
+    excel_data = to_excel(df_result)
+    st.download_button(label='📥 Download Result',
+                        data=excel_data ,
+                        file_name= 'result.xlsx')
+
 
 faq()
-
