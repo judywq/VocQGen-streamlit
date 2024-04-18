@@ -1,0 +1,9 @@
+version: '3'
+services:
+  web:
+    build: .
+    image: vocqgen-streamlit:latest
+    volumes:
+      - ./.streamlit:/app/.streamlit
+    ports:
+      - 80:8501
