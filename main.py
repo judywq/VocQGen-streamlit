@@ -12,7 +12,7 @@ from components.faq import faq
 from utils import to_excel
 from vocqgen.utils import setup_log
 
-setup_log()
+setup_log(need_file=False)
 
 
 config = Config()
