@@ -3,6 +3,7 @@ services:
   web:
     build: .
     image: vocqgen-streamlit:latest
+    restart: unless-stopped
     volumes:
       - ./.streamlit:/app/.streamlit
     ports:
