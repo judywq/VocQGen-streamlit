@@ -36,7 +36,7 @@ The process repeats based on the number of questions a user has specified for ea
 
 For details, please refer to the following publications:
 
-Wang, Q., Rose, R. L., Orita, N., \& Sugawara, A. (2023). Automated generation of multiple-choice cloze questions for assessing English vocabulary using GPT-turbo 3.5. Proceedings of the NLP4DH-IWCLUL 2023 Conference. Association for Computational Linguistics. Tokyo, Japan. https://doi.org/10.48550/arXiv.2403.02078 """)        
+Wang, Q., Rose, R. L., Orita, N., & Sugawara, A. (2023). Automated generation of multiple-choice cloze questions for assessing English vocabulary using GPT-turbo 3.5. Proceedings of the NLP4DH-IWCLUL 2023 Conference. Association for Computational Linguistics. Tokyo, Japan. https://doi.org/10.48550/arXiv.2403.02078 """)        
 
     # st.markdown("---")
 
