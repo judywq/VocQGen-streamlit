@@ -64,11 +64,21 @@ uploaded_file = st.file_uploader(
 
 
 with st.expander("Advanced Options", expanded=True):
-    model: str = st.selectbox("Model", options=st.secrets.MODEL_LIST)  # type: ignore
-    config.LLM_MODEL = model
+    options = st.secrets.MODEL_LIST + ["Another option..."]
+    model: str = st.selectbox("Model", options=options)  # type: ignore
+    
+    if model == "Another option...": 
+        otherOption = st.text_input("Enter your model name...", help="Enter the name of the model you want to use. (e.g. 'gpt-4o-mini')")
+        config.LLM_MODEL = otherOption
+    else:
+        config.LLM_MODEL = model
     
     config.HEADWORD_COL = st.text_input("Headword Column", value=config.HEADWORD_COL, help="The column name in your input data for the headword")
     config.WORD_PER_FAMILY = st.number_input("Questions per family", min_value=-1, max_value=1000, value=config.WORD_PER_FAMILY, step=1, help="Number of questions you want to generate for each word family. (-1 means all)")
+    config.DOMAIN = st.text_input("Domain", value=config.DOMAIN, help="The domain of the words you want to generate questions for. (General Academic, Medical, etc.)")
+    config.LEVEL_START = st.text_input("CEFR Level Range From", value=config.LEVEL_START, help="The starting level of the words you want to generate questions for. (A1, B1, etc.)")
+    config.LEVEL_END = st.text_input("CEFR Level Range To", value=config.LEVEL_END, help="The ending level of the words you want to generate questions for. (B2, C1, etc.)")
+    config.STUDENT_TYPE = st.text_input("Student Type", value=config.STUDENT_TYPE, help="The type of students you want to generate questions for. ")
 
 
 if not uploaded_file:
