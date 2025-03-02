@@ -1,22 +1,21 @@
 # app/Dockerfile
 
 FROM python:3.11-slim-bullseye
+COPY --from=ghcr.io/astral-sh/uv:0.6.3 /uv /uvx /bin/
 
 WORKDIR /app
 
+# git is required by unimorph
 RUN apt-get update && apt-get install -y \
-    build-essential \
-    curl \
-    software-properties-common \
-    git \
-    && rm -rf /var/lib/apt/lists/*
+    git
+
+COPY pyproject.toml uv.lock ./
+
+RUN uv venv --python 3.11
+RUN uv sync --frozen --no-install-project
 
 COPY . .
 
-RUN pip3 install --progress-bar off -r requirements.txt
-
 EXPOSE 8501
 
-HEALTHCHECK CMD curl --fail http://localhost:8501/_stcore/health
-
-ENTRYPOINT ["streamlit", "run", "main.py", "--server.port=8501", "--server.address=0.0.0.0"]
+ENTRYPOINT ["uv", "run", "streamlit", "run", "main.py", "--server.port=8501", "--server.address=0.0.0.0"]

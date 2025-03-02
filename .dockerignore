@@ -5,3 +5,4 @@ log/
 playground/
 
 __pycache__/
+.python-version
