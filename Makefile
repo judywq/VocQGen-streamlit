@@ -6,3 +6,6 @@ down:
 
 build:
 	docker build -t streamlit-test-timeout:latest .
+
+run:
+	uv run streamlit run main.py
