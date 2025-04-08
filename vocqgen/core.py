@@ -48,7 +48,7 @@ def generate_from_df(df, config: Config, progress_cb=None):
     
     columns = [headword_col, 'POS', 'Collocation', 'Sentence', 'Correct Answer', *[f'Distractor {i}' for i in range(1, config.DISTRACTOR_COUNT+1)]]
     data = []
-    failure_columns = ['word']
+    failure_columns = ['word', 'tag', 'reason']
     failure_list = []
     for i, word_family in enumerate(word_families):
         if progress_cb:
@@ -56,8 +56,10 @@ def generate_from_df(df, config: Config, progress_cb=None):
         logger.info(f"Processing word family {i+1}/{n_total}: {repr(word_family)}")
         count_per_family = 0
         for word in word_family.get_shuffled_words():
+            failure_reason = ""
             if not word:
                 logger.warning(f"Empty word in word family: {repr(word_family)}")
+                failure_reason = "Empty word"
                 continue
 
             keyword = word.surface
@@ -86,13 +88,18 @@ def generate_from_df(df, config: Config, progress_cb=None):
                     if suc:
                         suc = is_good_position(sentence, keyword)
                         log_data.append([get_date_str(), "Position Check", keyword, keyword_tag, f"Tag: {keyword_tag}, Sentence: {sentence}", "-", "-", suc])
-                
+                        if not suc:
+                            failure_reason = "Word is not in a good position"
+                    else:
+                        failure_reason = "POS tag check failed"
+                else:
+                    failure_reason = "Sentence generation failed"
                 if suc:
                     break
                 
             if not suc:
                 logger.error(f"Failed to generate sentence for '{repr(word)}'")
-                failure_list.append(word)
+                failure_list.append([word.surface, word.tag, failure_reason])
             else:
                 if config.NEED_DISTRACTOR:
                     # Successfully generated a sentence, now generate distractors
