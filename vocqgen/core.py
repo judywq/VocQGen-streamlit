@@ -74,10 +74,10 @@ def generate_from_df(df, config: Config, progress_cb=None):
                                              "domain": config.DOMAIN, "level_start": config.LEVEL_START, "level_end": config.LEVEL_END,
                                              "student_type": config.STUDENT_TYPE})
                 suc = r.get('success')
-                log_data.append([get_date_str(), bot_sent_gen.task_name, keyword, keyword_tag, r.get('prompt'), r.get('raw_response'), r.get('result'), suc])
+                result = r.get('result')
+                log_data.append([get_date_str(), bot_sent_gen.task_name, keyword, keyword_tag, r.get('prompt'), r.get('raw_response'), str(result), suc])
                 
                 if suc:
-                    result = r.get('result')
                     clozed_sentence = result.get('sentence')
                     collocation = result.get('collocation')
                     sentence = fill_cloze(clozed_sentence, keyword)
@@ -154,7 +154,7 @@ def fill_distractors(bot_rational, word_cluster, word, sentence, n_distractors, 
         r = bot_rational.run(inputs={"keyword": word, "candidates": candidates, "sentence": sentence})
         suc = r.get('success')
         good_candidates = r.get('good_candidates')
-        log_data.append([get_date_str(), bot_rational.task_name, word.surface, word.tag, r.get('prompt'), r.get('raw_response'), good_candidates, suc])
+        log_data.append([get_date_str(), bot_rational.task_name, word.surface, word.tag, r.get('prompt'), r.get('raw_response'), str(good_candidates), suc])
         if not suc:
             logger.error(f"Failed to decide proper distractors for {word}")
             continue
