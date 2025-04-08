@@ -118,7 +118,7 @@ def get_inflections(headword):
     if len(total_keys) <= 0:
         full_log.append({
                          "headword": headword,
-                         "word": w,
+                         "word": '-',
                          "tag": '-',
                          "lemm": '-',
                          "unimorph": '-',
