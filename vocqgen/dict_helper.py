@@ -18,6 +18,8 @@ fl_to_pos = {
     'preposition': 'IN',
     'conjunction': 'CC',
     'interjection': 'UH',
+    'definite article': 'DT',
+    'indefinite article': 'DT',
 }
 
 def fetch_words_from_dict(keywords: list[str], api_key: str):
