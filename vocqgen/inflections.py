@@ -63,20 +63,20 @@ def get_inflections(headword):
     total_keys = set(tag_to_words_lemm.keys()) | set(tag_to_words_unimorph.keys())
         
     # 1. Get all POS tags from dictionary
-    pos_list = get_pos_list_of_keyword(headword)
-    if not pos_list:
+    dict_pos_list = get_pos_list_of_keyword(headword)
+    if not dict_pos_list:
         logging.warning(f"Cannot find POS for word: <{headword}>, please check the word is fetched from the dictionary.")
-        pos_list = []
+        dict_pos_list = []
     
     # 2. Filter out unimportant POS tags using GPT
     bot = MyBotWrapper(parser=PosRankParser(), temperature=0)
-    r = bot.run(inputs={'keyword': headword, 'tags': pos_list})
+    r = bot.run(inputs={'keyword': headword, 'tags': dict_pos_list})
     top_pos_list = r.get('result', [])
     top_pos_list = [translate_fl_to_pos(tag) for tag in top_pos_list]
     
     # If the top_pos_list is empty, use the dictionary POS tags
     if not top_pos_list:
-        top_pos_list = pos_list
+        top_pos_list = dict_pos_list
     
     total_keys |= set(top_pos_list)
 
@@ -86,7 +86,7 @@ def get_inflections(headword):
     for tag in all_tags:
         tmp_union = tag_to_words_lemm.get(tag, set()) | tag_to_words_unimorph.get(tag, set())
         if tmp_union:
-            res[tag] = tmp_union    
+            res[tag] = tmp_union
     
     # 4. Filter the union by the top_pos_list
     res = filter_inflections_by_pos(res, top_pos_list)
@@ -124,13 +124,13 @@ def get_inflections(headword):
                          "headword": headword,
                          "word": '-',
                          "tag": '-',
-                         "lemm": '-',
-                         "unimorph": '-',
-                         "dict_pos": ",".join(pos_list),
+                         "lemm": False,
+                         "unimorph": False,
+                         "dict_pos": ",".join(dict_pos_list),
                          "gpt_pos": ",".join(top_pos_list),
                          "ngram_pos": ",".join(ngram_pos),
                          "noun_removed": ",".join(noun_removed),
-                         "final": '-',
+                         "final": False,
                          })
     for tag in total_keys:
         total_values = tag_to_words_lemm.get(tag, set()) | tag_to_words_unimorph.get(tag, set())
@@ -142,7 +142,7 @@ def get_inflections(headword):
                          "tag": tag,
                          "lemm": w in tag_to_words_lemm.get(tag, set()),
                          "unimorph": w in tag_to_words_unimorph.get(tag, set()),
-                         "dict_pos": ",".join(pos_list),
+                         "dict_pos": ",".join(dict_pos_list),
                          "gpt_pos": ",".join(top_pos_list),
                          "ngram_pos": ",".join(ngram_pos),
                          "noun_removed": ",".join(noun_removed),
@@ -152,6 +152,16 @@ def get_inflections(headword):
 
 
 def filter_inflections_by_pos(tag_to_words: dict, pos_list: list[str]):
+    """Filter the inflections of a word by the general POS tags
+
+    Args:
+        tag_to_words (dict): a mapping from tag to a set of words
+        pos_list (list[str]): a list of POS tags
+
+    Returns:
+        dict: a mapping from tag to a set of words
+    """
+    
     def is_pos_in_list(tag: str, pos_list: list[str]):
         for pos in pos_list:
             general_tag = get_general_pos(tag)
@@ -261,6 +271,19 @@ def try_filter_high_freq_noun(tag_to_words: dict):
     return result
 
 def get_inflections_lemm(word):
+    """Get all inflections of a word using lemminflect
+
+    Args:
+        word (str): an English word
+
+    Returns:
+        dict: a mapping from tag to a set of words, e.g. 
+            {'NN': {'account'},
+            'NNS': {'accounts'},
+            'VB': {'account'},
+            'VBD': {'accounted'},
+            ...}
+    """
     res = getAllInflections(word)
     # if not res:
         # logger.warning(f"No inflections found for word: <{word}>")
@@ -270,6 +293,19 @@ def get_inflections_lemm(word):
 
 
 def get_inflections_unimorph(word):
+    """Get all inflections of a word using unimorph
+
+    Args:
+        word (str): an English word
+
+    Returns:
+        dict: a mapping from tag to a set of words, e.g.
+            {'NN': {'account'},
+            'NNS': {'accounts'},
+            'VB': {'account'},
+            'VBD': {'accounted'},
+            ...}
+    """
     res = inflect_word(word, lang="eng")
     tag_to_words = defaultdict(set)
     for line in res.split("\n"):
