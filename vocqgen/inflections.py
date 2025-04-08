@@ -74,6 +74,10 @@ def get_inflections(headword):
     top_pos_list = r.get('result', [])
     top_pos_list = [translate_fl_to_pos(tag) for tag in top_pos_list]
     
+    # If the top_pos_list is empty, use the dictionary POS tags
+    if not top_pos_list:
+        top_pos_list = pos_list
+    
     total_keys |= set(top_pos_list)
 
     # 3. Take the union of the two sets
