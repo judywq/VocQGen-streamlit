@@ -15,3 +15,6 @@ Faculty of Science and Engineering (CELESE), Waseda University, Japan.
 Contact info: judy.wang@aoni.waseda.jp
 """
         )
+        st.markdown(
+            "**Version 1.0.0**"
+        )
