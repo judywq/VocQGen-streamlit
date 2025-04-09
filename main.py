@@ -99,24 +99,28 @@ if st.button("Generate Cloze!", disabled=st.session_state.running, key='run_butt
     my_bar = st.progress(0, text="Initializing...")
     result_slot = st.empty()
     
-    # Process the data
-    for result in generate_from_df(original_data, config, 
-                              lambda i, n, w: my_bar.progress(i / n, text=f"[{i}/{n}] Generating cloze for word `{w}`...")):
-        with result_slot.container():
-            df_result = result['result']
+    try:
+        # Process the data
+        for result in generate_from_df(original_data, config, 
+                                lambda i, n, w: my_bar.progress(i / n, text=f"[{i}/{n}] Generating cloze for word `{w}`...")):
+            with result_slot.container():
+                df_result = result['result']
 
-            st.write("### Result:")
-            st.write(df_result)
+                st.write("### Result:")
+                st.write(df_result)
 
-            st.write("### Log:")
-            st.write(result['log'])
-            
-            st.write("### Inflections:")
-            st.write(result['inflections'])
-            
-            st.write("### Failure:")
-            st.write(result['failure'])
-        st.session_state.result = result
+                st.write("### Log:")
+                st.write(result['log'])
+                
+                st.write("### Inflections:")
+                st.write(result['inflections'])
+                
+                st.write("### Failure:")
+                st.write(result['failure'])
+            st.session_state.result = result
+    except Exception as e:
+        st.error(f"Error occurred during cloze generation: {e}")
+        st.stop()
     # https://discuss.streamlit.io/t/disable-the-button-until-the-end-of-the-script-execution/42443/8
     st.rerun()
 
