@@ -73,7 +73,7 @@ with st.expander("Advanced Options", expanded=True):
     else:
         config.LLM_MODEL = model
     
-    config.HEADWORD_COL = st.text_input("Headword Column", value=config.HEADWORD_COL, help="The column name in your input data for the headword")
+    config.HEADWORD_COL = st.text_input("Headword Column (case sensitive)", value=config.HEADWORD_COL, help="The column name in your input data for the headword")
     config.WORD_PER_FAMILY = st.number_input("Questions per family", min_value=-1, max_value=1000, value=config.WORD_PER_FAMILY, step=1, help="Number of questions you want to generate for each word family. (-1 means all)")
     config.DOMAIN = st.text_input("Domain", value=config.DOMAIN, help="The domain of the words you want to generate questions for. (General Academic, Medical, etc.)")
     config.LEVEL_START = st.text_input("CEFR Level Range From", value=config.LEVEL_START, help="The starting level of the words you want to generate questions for. (A1, B1, etc.)")
@@ -88,6 +88,11 @@ if not uploaded_file:
 st.write("### Original Data:")
 original_data = pd.read_excel(uploaded_file)
 st.write(original_data)
+
+# Validate headword column exists
+if config.HEADWORD_COL not in original_data.columns:
+    st.error(f"Error: Column '{config.HEADWORD_COL}' not found in the uploaded Excel file. Please config the 'Headword Column' properly and try again.")
+    st.stop()
 
 my_bar = None
 if st.button("Generate Cloze!", disabled=st.session_state.running, key='run_button'):
