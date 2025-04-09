@@ -65,20 +65,70 @@ uploaded_file = st.file_uploader(
 
 with st.expander("Advanced Options", expanded=True):
     options = st.secrets.MODEL_LIST + ["Another option..."]
-    model: str = st.selectbox("Model", options=options)  # type: ignore
+    previous_model = st.session_state.get("model", "")
+    model_index = options.index(previous_model) if previous_model in options else 0
+    model: str = st.selectbox(
+        "Model", 
+        options=options,
+        index=model_index
+    )  # type: ignore
+    st.session_state["model"] = model
     
     if model == "Another option...": 
-        otherOption = st.text_input("Enter your model name...", help="Enter the name of the model you want to use. (e.g. 'gpt-4o-mini')")
+        otherOption = st.text_input(
+            "Enter your model name...", 
+            value=st.session_state.get("otherOption", ""),
+            help="Enter the name of the model you want to use. (e.g. 'gpt-4o-mini')"
+        )
+        st.session_state["otherOption"] = otherOption
         config.LLM_MODEL = otherOption
     else:
         config.LLM_MODEL = model
     
-    config.HEADWORD_COL = st.text_input("Headword Column (case sensitive)", value=config.HEADWORD_COL, help="The column name in your input data for the headword")
-    config.WORD_PER_FAMILY = st.number_input("Questions per family", min_value=-1, max_value=1000, value=config.WORD_PER_FAMILY, step=1, help="Number of questions you want to generate for each word family. (-1 means all)")
-    config.DOMAIN = st.text_input("Domain", value=config.DOMAIN, help="The domain of the words you want to generate questions for. (General Academic, Medical, etc.)")
-    config.LEVEL_START = st.text_input("CEFR Level Range From", value=config.LEVEL_START, help="The starting level of the words you want to generate questions for. (A1, B1, etc.)")
-    config.LEVEL_END = st.text_input("CEFR Level Range To", value=config.LEVEL_END, help="The ending level of the words you want to generate questions for. (B2, C1, etc.)")
-    config.STUDENT_TYPE = st.text_input("Student Type", value=config.STUDENT_TYPE, help="The type of students you want to generate questions for. ")
+    config.HEADWORD_COL = st.text_input(
+        "Headword Column (case sensitive)", 
+        value=st.session_state.get("headword_col", config.HEADWORD_COL),
+        help="The column name in your input data for the headword"
+    )
+    st.session_state["headword_col"] = config.HEADWORD_COL
+    
+    config.WORD_PER_FAMILY = st.number_input(
+        "Questions per family", 
+        min_value=-1, 
+        max_value=1000, 
+        value=st.session_state.get("word_per_family", config.WORD_PER_FAMILY),
+        step=1, 
+        help="Number of questions you want to generate for each word family. (-1 means all)"
+    )
+    st.session_state["word_per_family"] = config.WORD_PER_FAMILY
+    
+    config.DOMAIN = st.text_input(
+        "Domain", 
+        value=st.session_state.get("domain", config.DOMAIN),
+        help="The domain of the words you want to generate questions for. (General Academic, Medical, etc.)"
+    )
+    st.session_state["domain"] = config.DOMAIN
+    
+    config.LEVEL_START = st.text_input(
+        "CEFR Level Range From", 
+        value=st.session_state.get("level_start", config.LEVEL_START),
+        help="The starting level of the words you want to generate questions for. (A1, B1, etc.)"
+    )
+    st.session_state["level_start"] = config.LEVEL_START
+    
+    config.LEVEL_END = st.text_input(
+        "CEFR Level Range To", 
+        value=st.session_state.get("level_end", config.LEVEL_END),
+        help="The ending level of the words you want to generate questions for. (B2, C1, etc.)"
+    )
+    st.session_state["level_end"] = config.LEVEL_END
+    
+    config.STUDENT_TYPE = st.text_input(
+        "Student Type", 
+        value=st.session_state.get("student_type", config.STUDENT_TYPE),
+        help="The type of students you want to generate questions for. "
+    )
+    st.session_state["student_type"] = config.STUDENT_TYPE
 
 
 if not uploaded_file:
