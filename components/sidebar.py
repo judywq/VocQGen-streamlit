@@ -16,5 +16,5 @@ Contact info: judy.wang@aoni.waseda.jp
 """
         )
         st.markdown(
-            "**Version 1.0.0**"
+            "**Version 1.0.1**"
         )
