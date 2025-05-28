@@ -25,7 +25,7 @@ def generate_from_df(df, config: Config, progress_cb=None):
     fetch_words_from_dict(keywords=keywords, api_key=st.secrets.DICT_API_KEY)
 
     logger.info(f"Loading WordClusters...")
-    word_cluster = parse_as_word_cluster(df)
+    word_cluster = parse_as_word_cluster(df, headword_col)
     
     # df_inflections = pd.DataFrame(word_cluster.inflection_log, columns=inflection_columns)
     df_inflections = pd.DataFrame(word_cluster.inflection_log)
@@ -189,12 +189,12 @@ def clean_data(df, config: Config):
 
 
 @st.cache_data(show_spinner=False)
-def parse_as_word_cluster(df, max_count=-1):
+def parse_as_word_cluster(df, headword_col, max_count=-1):
     """Load a sublist from a dataframe as a WordCluster object
     """
     wc = WordCluster()
     for i, row in df.iterrows():
-        headword = row['Headword']
+        headword = row[headword_col]
         logger.info(f"Adding to wordcluster for '{headword}'")
         # related_words = row['Related word forms'].split(',')
         # Do not derive for now
