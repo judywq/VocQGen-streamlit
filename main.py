@@ -92,6 +92,13 @@ with st.expander("Advanced Options", expanded=True):
     )
     st.session_state["headword_col"] = config.HEADWORD_COL
     
+    config.TARGET_COL = st.text_input(
+        "Column name for selecting words as keywords: only the rows with the value of 1 in this column will be used as keywords (the correct answer), others will be used as distractors", 
+        value=st.session_state.get("target_col", config.TARGET_COL),
+        help="Only the rows with the value of 1 in this column will be used as keywords (the correct answer), others will be used as distractors"
+    )
+    st.session_state["target_col"] = config.TARGET_COL
+    
     config.WORD_PER_FAMILY = st.number_input(
         "Questions per family", 
         min_value=-1, 

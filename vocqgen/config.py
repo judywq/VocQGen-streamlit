@@ -3,6 +3,7 @@ from dataclasses import dataclass
 @dataclass
 class Config:
     HEADWORD_COL: str = 'Headword'
+    TARGET_COL: str = 'IsKeyword'
     DEFAULT_LOG_LEVEL = "INFO"
     # DEFAULT_LOG_LEVEL = "DEBUG"
 

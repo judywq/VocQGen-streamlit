@@ -20,6 +20,9 @@ def generate_from_df(df, config: Config, progress_cb=None):
     df = clean_data(df, config)
     keywords = df[headword_col].tolist()
     selected_keywords = keywords
+    
+    if config.TARGET_COL and config.TARGET_COL in df.columns:
+        selected_keywords = df[df[config.TARGET_COL] == 1][headword_col].tolist()
 
     logger.info(f"Fetching words from dictionary...")
     fetch_words_from_dict(keywords=keywords, api_key=st.secrets.DICT_API_KEY)
