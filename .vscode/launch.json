@@ -5,17 +5,20 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Pytest",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "pytest",
+      "args": [
+        "${workspaceFolder}/tests"
+      ]
+    },
+    {
       "name": "Streamlit: Debug main.py",
       "type": "debugpy",
       "request": "launch",
       "program": "-m",
-      "args": [
-        "streamlit",
-        "run",
-        "main.py",
-        "--server.port",
-        "8501"
-      ],
+      "args": ["streamlit", "run", "main.py", "--server.port", "8501"],
       "console": "integratedTerminal",
       "justMyCode": true
     }

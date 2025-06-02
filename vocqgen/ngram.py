@@ -15,7 +15,7 @@ penn_pos_to_google_pos = {
 }
 
 
-def filter_high_freq_pos(headword, pos_list, th=0.1):
+def filter_high_freq_pos(headword, pos_list, ratio_against_highest=0.1):
     """Filter out pos tags with frequency less than a percentage of the highest frequency
     
     returns a list of general pos tags that have high frequency
@@ -36,7 +36,7 @@ def filter_high_freq_pos(headword, pos_list, th=0.1):
         return res
     top_record = max(last_values, key=lambda x: x["last_value"])
     top_value = top_record["last_value"]
-    th_value = top_value * th
+    th_value = top_value * ratio_against_highest
 
     for record in last_values:
         if record["last_value"] >= th_value:
