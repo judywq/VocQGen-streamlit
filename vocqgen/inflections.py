@@ -10,6 +10,7 @@ from vocqgen.ngram import filter_high_freq_inflections, filter_high_freq_pos
 import logging
 logger = logging.getLogger(__name__)
 
+# https://www.ling.upenn.edu/courses/Fall_2003/ling001/penn_treebank_pos.html
 # https://unimorph.github.io/doc/unimorph-schema.pdf
 unimorph_to_penn = {
     'N;SG': 'NN',

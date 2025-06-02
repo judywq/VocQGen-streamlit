@@ -2,19 +2,16 @@ import requests
 
 from vocqgen.utils import get_general_pos
 
-
-google_pos_to_penn_pos = {
-    "NOUN": "NN",
-    "VERB": "VB",
-    "ADJ": "JJ",
-    "ADV": "RB",
-}
-
+# https://www.ling.upenn.edu/courses/Fall_2003/ling001/penn_treebank_pos.html
+# https://books.google.com/ngrams/info
 penn_pos_to_google_pos = {
     "NN": "NOUN",
     "VB": "VERB",
     "JJ": "ADJ",
     "RB": "ADV",
+    "PRP": "PRON",
+    "DT": "DET",
+    "CC": "CONJ",
 }
 
 
@@ -53,11 +50,13 @@ def filter_high_freq_inflections(inf_data, th=0.1):
     item_list = []
     for tag, words in inf_data.items():
         g_pos = penn_pos_to_google_pos.get(get_general_pos(tag), None)
-        if g_pos is not None:
-            for w in words:
+        for w in words:
+            if g_pos is not None:
                 search_item = f"{w}_{g_pos}"
-                tagword_to_searchitem_mapping[(tag, w)] = search_item
-                item_list.append(search_item)
+            else:
+                search_item = w
+            tagword_to_searchitem_mapping[(tag, w)] = search_item
+            item_list.append(search_item)
 
     content = ",".join(item_list)
     last_values = search_ngram(content)
@@ -97,7 +96,8 @@ def get_last_timeseries(json_data):
     return last_values
 
 
-def search_ngram(content, year_start=2018, year_end=2019, corpus="en-2019", smoothing=3):
+# https://books.google.com/ngrams/info
+def search_ngram(content, year_start=2021, year_end=2022, corpus="en-2022", smoothing=3):
     url = "https://books.google.com/ngrams/json"
 
     try:
