@@ -11,6 +11,11 @@ logger = logging.getLogger(__name__)
 
 class MyWord:
     def __init__(self, surface, tag=None) -> None:
+        """
+        Args:
+            surface: the surface form of the word, e.g. "account"
+            tag: the part of speech tag of the word, e.g. "VB"
+        """
         self.surface = surface
         self.tag = tag
     
