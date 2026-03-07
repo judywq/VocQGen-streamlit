@@ -57,3 +57,10 @@ def test_filter_high_freq_inflections(mock_search_ngram):
     assert "dogs" in result["NN"]
     assert "dog" in result["NN"]
     assert "VB" not in result or not result["VB"] 
+    
+
+def test_search_ngram_real():
+    result = ngram.search_ngram("dog_NOUN")
+    assert result[0]["ngram"] == "dog_NOUN"
+    assert result[0]["last_value"] > 0
+
