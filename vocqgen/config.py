@@ -7,10 +7,12 @@ class Config:
     DEFAULT_LOG_LEVEL = "INFO"
     # DEFAULT_LOG_LEVEL = "DEBUG"
 
-    LLM_MODEL = 'gpt-3.5-turbo-0301'
-    # LLM_MODEL = 'gpt-3.5-turbo'
+    LLM_MODEL = 'gpt-4o-mini'
+    # LLM_MODEL = 'gpt-4o'
+    # LLM_MODEL = 'gpt-4-1106-preview'
     # LLM_MODEL = 'gpt-4'
-    # LLM_MODEL: str = 'gpt-4-1106-preview'
+    # LLM_MODEL = 'gpt-3.5-turbo'
+    # LLM_MODEL = 'gpt-5'  # when available
 
     REQUEST_TIMEOUT_SECS: int = 60
 

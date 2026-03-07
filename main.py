@@ -78,7 +78,7 @@ with st.expander("Advanced Options", expanded=True):
         otherOption = st.text_input(
             "Enter your model name...", 
             value=st.session_state.get("otherOption", ""),
-            help="Enter the name of the model you want to use. (e.g. 'gpt-4o-mini')"
+            help="Enter the name of the model you want to use. (e.g. 'gpt-5', 'gpt-4o-mini')"
         )
         st.session_state["otherOption"] = otherOption
         config.LLM_MODEL = otherOption
