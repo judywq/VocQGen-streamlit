@@ -10,9 +10,9 @@ In future iterations, user adjustable variables such as length of question and l
 You can contribute to the project on [GitHub](https://github.com/judywq/VocQGen-streamlit) with your feedback and suggestions.
 
 Made by Judy Wang, Ralph Rose, Ayaka Sugawara and Naho Orita from Center for English Language Education, 
-Faculty of Science and Engineering (CELESE), Waseda University, Japan.
+Faculty of Science and Engineering (CELESE), Waseda University, Japan. (Judy Wang has moved to Hosei University since 2025.)
 
-Contact info: judy.wang@aoni.waseda.jp
+Contact info: judy.wang@hosei.ac.jp
 """
         )
         st.markdown(
