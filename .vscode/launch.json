@@ -5,12 +5,21 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Pytest",
+      "name": "Pytest All",
       "type": "debugpy",
       "request": "launch",
       "module": "pytest",
       "args": [
         "${workspaceFolder}/tests"
+      ]
+    },
+    {
+      "name": "Pytest Current File",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "pytest",
+      "args": [
+        "${relativeFile}"
       ]
     },
     {
