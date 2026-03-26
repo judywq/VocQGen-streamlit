@@ -137,11 +137,11 @@ with st.expander("Advanced Options", expanded=True):
     )
     st.session_state["student_type"] = config.STUDENT_TYPE
 
-    sentence_len_help = "Sentence word count constraint (min > 0, min ≤ max, max ≤ 100)."
+    sentence_len_help = "Word count constraint (min > 0, min ≤ max, max ≤ 100)."
     c1, c2 = st.columns(2)
     with c1:
         config.SENTENCE_WORDS_MIN = st.number_input(
-            "Min sentence words",
+            "Minimum number of words in stem",
             min_value=1,
             max_value=100,
             value=st.session_state.get("sentence_words_min", config.SENTENCE_WORDS_MIN),
@@ -151,7 +151,7 @@ with st.expander("Advanced Options", expanded=True):
         st.session_state["sentence_words_min"] = config.SENTENCE_WORDS_MIN
     with c2:
         config.SENTENCE_WORDS_MAX = st.number_input(
-            "Max sentence words",
+            "Maximum number of words in stem",
             min_value=1,
             max_value=100,
             value=st.session_state.get("sentence_words_max", config.SENTENCE_WORDS_MAX),
