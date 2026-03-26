@@ -75,7 +75,9 @@ def generate_from_df(df, config: Config, progress_cb=None):
                 # print(f"{repr(w)}: {candidates}")
                 r = bot_sent_gen.run(inputs={"word": keyword, "tag": keyword_tag,
                                              "domain": config.DOMAIN, "level_start": config.LEVEL_START, "level_end": config.LEVEL_END,
-                                             "student_type": config.STUDENT_TYPE})
+                                             "student_type": config.STUDENT_TYPE,
+                                             "sentence_words_min": config.SENTENCE_WORDS_MIN,
+                                             "sentence_words_max": config.SENTENCE_WORDS_MAX})
                 suc = r.get('success')
                 result = r.get('result')
                 log_data.append([get_date_str(), bot_sent_gen.task_name, keyword, keyword_tag, r.get('prompt'), r.get('raw_response'), str(result), suc])

@@ -23,6 +23,10 @@ class Config:
     LEVEL_START: str = 'A2'
     LEVEL_END: str = 'lower B2'
     STUDENT_TYPE: str = 'Japanese university students without domain-specific English knowledge whose proficiency level is A2-B2'
+
+    # Sentence length constraints (word count)
+    SENTENCE_WORDS_MIN: int = 15
+    SENTENCE_WORDS_MAX: int = 20
     # The number of times to retry when ChatGPT fails to generate a sentence for a word
     RETRY_COUNT_FOR_SINGLE_WORD: int = 3
 

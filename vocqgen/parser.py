@@ -156,6 +156,8 @@ class SentGenParser(ParserBase):
         scope = inputs.get('scope', 'a wide range of general topics your students may know that does not require domain-specific English knowledge')
         level_start = inputs.get('level_start', 'A2')
         level_end = inputs.get('level_end', 'lower B2')
+        sentence_words_min = inputs.get('sentence_words_min', 15)
+        sentence_words_max = inputs.get('sentence_words_max', 20)
         
         # if sense:
         #     sense_part = f'with the meaning of "{sense}"'
@@ -173,7 +175,7 @@ The sentence should be contextualized in {scope}.
 The sentence should show a frequent N-gram (N<=3) collocation of the word "{word}" tagged as "{tag}" with the specified definition.
 The word "{word}" should be pivotal to the meaning of the sentence and carries significant weight in the context. 
 The sentence should be understandable to the target students, with no words beyond their proficiency levels.
-The length of the sentence should be between 15-20 words.
+The length of the sentence should be between {sentence_words_min}-{sentence_words_max} words.
 Ensure "{word}" does not appear at the beginning or the end of the sentence, nor is it repeated elsewhere in the sentence.
 Ensure none of the derivatives of "{word}" are present in the sentence.
 Please avoid starting the sentence with the definite article "the" as much as possible.
